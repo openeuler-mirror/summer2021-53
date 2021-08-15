@@ -1,37 +1,34 @@
-# Summer2021-No.53 为Linux内核寻找更多的补丁修改范式
+# 项目报告
 
-#### 介绍
-https://gitee.com/openeuler-competition/summer-2021/issues/I3EIJ1
+## 项目信息
 
-#### 软件架构
-软件架构说明
+- 项目名称 为 Linux 内核寻找更多的补丁修改范式
 
+- 方案描述
+    1. 为 Linux 内核寻找至少2个补丁修改范式，并验证修改范式的正确性
+    2. 提交自己的原创的 coccinelle 规则
+    3. 把自己的贡献开源到 Linux 社区
 
-#### 安装教程
+- 时间规划
+    1. 6月下旬至 7月上旬:学习静态代码分析工具，掌握 Coccinelle 基本语法知识。
+    2. 7月上旬至 8月上旬:阅读 Linux 内核代码，成功使用 Coccinelle 对 Llinux 内核代码静态扫描寻找漏洞，同时准备 中期考核的演示材料 。
+    3. 8月下旬至 9月下旬:给寻找到的漏洞提交补􏰀修改范式，并且通过执行测试，验证修改范式的正确性。
+    4. 9月下旬至 10月上旬:提交补􏰀到开源社区，准备终期考核材料
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 项目进度
 
-#### 使用说明
+- 已完成工作
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. 学习了静态代码分析工具spatch，掌握 Coccinelle 基本语法知识。
+2. 参照linux社区中的coccinelle材料，写了两条规则：remove_INIT_LIST_HEAD以及remove_zero_memset
+3. 学习了如何制作linux补丁与向社区发送补丁，并发送了使用remove_INIT_LIST_HEAD规则扫到的第一个补丁。
 
-#### 参与贡献
+- 遇到的问题及解决方案
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+1. 规则比较难发现：快速翻了数千条 linux commit log以寻找合适的规则。
+2. coccinelle语法比较难： 调研了外网的很多语法资料，并使用了参照法。
 
+- 后续的工作安排
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. 继续编写更复杂的规则.
+2. 继续向社区发送补丁与回复邮件，形成良好互动
