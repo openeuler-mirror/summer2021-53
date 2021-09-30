@@ -1,0 +1,102 @@
+diff -u -p a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -935,7 +935,7 @@ static struct platform_device *tpacpi_pd
+ static struct platform_device *tpacpi_sensors_pdev;
+ static struct device *tpacpi_hwmon;
+ static struct input_dev *tpacpi_inputdev;
+-static struct mutex tpacpi_inputdev_send_mutex;
++static DEFINE_MUTEX(tpacpi_inputdev_send_mutex);
+ static LIST_HEAD(tpacpi_all_drivers);
+
+ #ifdef CONFIG_PM_SLEEP
+@@ -1990,7 +1990,7 @@ static struct task_struct *tpacpi_hotkey
+  *
+  * See HOTKEY_CONFIG_CRITICAL_START/HOTKEY_CONFIG_CRITICAL_END
+  */
+-static struct mutex hotkey_thread_data_mutex;
++static DEFINE_MUTEX(hotkey_thread_data_mutex);
+ static unsigned int hotkey_config_change;
+
+ /*
+@@ -2022,7 +2022,7 @@ static unsigned int hotkey_poll_freq = 1
+
+ #endif /* CONFIG_THINKPAD_ACPI_HOTKEY_POLL */
+
+-static struct mutex hotkey_mutex;
++static DEFINE_MUTEX(hotkey_mutex);
+
+ static enum {  /* Reasons for waking up */
+        TP_ACPI_WAKEUP_NONE = 0,        /* None or unknown */
+@@ -3494,10 +3494,9 @@ static int __init hotkey_init(struct ibm
+               tpacpi_inputdev->close != NULL);
+
+        TPACPI_ACPIHANDLE_INIT(hkey);
+-       mutex_init(&hotkey_mutex);
+
+ #ifdef CONFIG_THINKPAD_ACPI_HOTKEY_POLL
+-       mutex_init(&hotkey_thread_data_mutex);
++       
+ #endif
+
+        /* hotkey not supported on 570 */
+@@ -6698,7 +6697,7 @@ static enum tpacpi_brightness_access_mod
+
+ static unsigned int brightness_enable = 2; /* 2 = auto, 0 = no, 1 = yes */
+
+-static struct mutex brightness_mutex;
++static DEFINE_MUTEX(brightness_mutex);
+
+ /* NVRAM brightness access,
+  * call with brightness_mutex held! */
+@@ -7023,8 +7022,6 @@ static int __init brightness_init(struct
+
+        vdbg_printk(TPACPI_DBG_INIT, "initializing brightness subdriver\n");
+-       mutex_init(&brightness_mutex);
+-
+        quirks = tpacpi_check_quirks(brightness_quirk_table,
+                                ARRAY_SIZE(brightness_quirk_table));
+
+@@ -7313,7 +7310,7 @@ static int software_mute_orig_mode;
+  * Used to syncronize writers to TP_EC_AUDIO and
+  * TP_NVRAM_ADDR_MIXER, as we need to do read-modify-write
+  */
+-static struct mutex volume_mutex;
++static DEFINE_MUTEX(volume_mutex);
+
+ static void tpacpi_volume_checkpoint_nvram(void)
+ {
+@@ -7768,8 +7765,6 @@ static int __init volume_init(struct ibm
+
+        vdbg_printk(TPACPI_DBG_INIT, "initializing volume subdriver\n");
+
+-       mutex_init(&volume_mutex);
+-
+        /*
+         * Check for module parameter bogosity, note that we
+         * init volume_mode to TPACPI_VOL_MODE_MAX in order to be
+@@ -8161,7 +8156,7 @@ static u8 fan_control_desired_level;
+ static u8 fan_control_resume_level;
+ static int fan_watchdog_maxinterval;
+
+-static struct mutex fan_mutex;
++static DEFINE_MUTEX(fan_mutex);
+
+ static void fan_watchdog_fire(struct work_struct *ignored);
+ static DECLARE_DELAYED_WORK(fan_watchdog_task, fan_watchdog_fire);
+@@ -8865,7 +8860,6 @@ static int __init fan_init(struct ibm_in
+        vdbg_printk(TPACPI_DBG_INIT | TPACPI_DBG_FAN,
+                        "initializing fan subdriver\n");
+
+-       mutex_init(&fan_mutex);
+        fan_status_access_mode = TPACPI_FAN_NONE;
+        fan_control_access_mode = TPACPI_FAN_WR_NONE;
+        fan_control_commands = 0;
+@@ -11440,7 +11434,6 @@ static int __init thinkpad_acpi_module_i
+                thinkpad_acpi_module_exit();
+                return ret;
+        }
+-       mutex_init(&tpacpi_inputdev_send_mutex);
+        tpacpi_inputdev = input_allocate_device();
+        if (!tpacpi_inputdev) {
+                thinkpad_acpi_module_exit();

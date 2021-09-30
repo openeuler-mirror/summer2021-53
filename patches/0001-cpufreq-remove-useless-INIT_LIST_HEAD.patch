@@ -1,0 +1,30 @@
+From 33b36252d9f7ac48e7fc336bf8eb29a76a2855bc Mon Sep 17 00:00:00 2001
+From: Han Wang <zjuwanghan@outlook.com>
+Date: Sun, 15 Aug 2021 20:40:16 +0800
+Subject: [PATCH -next] cpufreq: remove useless INIT_LIST_HEAD()
+
+list cpu_data_list has been inited staticly through LIST_HEAD,
+so there's no need to call another INIT_LIST_HEAD. Simply remove
+it from cppc_cpufreq_init.
+
+Signed-off-by: Han Wang <zjuwanghan@outlook.com>
+---
+ drivers/cpufreq/cppc_cpufreq.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+index d4c27022b..db1719626 100644
+--- a/drivers/cpufreq/cppc_cpufreq.c
++++ b/drivers/cpufreq/cppc_cpufreq.c
+@@ -741,8 +741,6 @@ static int __init cppc_cpufreq_init(void)
+ 	if ((acpi_disabled) || !acpi_cpc_valid())
+ 		return -ENODEV;
+ 
+-	INIT_LIST_HEAD(&cpu_data_list);
+-
+ 	cppc_check_hisi_workaround();
+ 	cppc_freq_invariance_init();
+ 
+-- 
+2.25.1
+

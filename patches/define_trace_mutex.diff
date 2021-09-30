@@ -1,0 +1,21 @@
+diff -u -p a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
+--- a/kernel/trace/trace_osnoise.c
++++ b/kernel/trace/trace_osnoise.c
+@@ -220,7 +220,7 @@ struct timerlat_sample {
+ /*
+  * Protect the interface.
+  */
+-struct mutex interface_lock;
++DEFINE_MUTEX(interface_lock);
+
+ /*
+  * Tracer data.
+@@ -2087,8 +2087,6 @@ __init static int init_osnoise_tracer(vo
+ {
+        int ret;
+
+-       mutex_init(&interface_lock);
+-
+        cpumask_copy(&osnoise_cpumask, cpu_all_mask);
+
+        ret = register_tracer(&osnoise_tracer);

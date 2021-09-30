@@ -1,0 +1,20 @@
+diff -u -p a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -106,7 +106,7 @@ module_param_string(usermode_helper, drb
+  */
+ struct idr drbd_devices;
+ struct list_head drbd_resources;
+-struct mutex resources_mutex;
++DEFINE_MUTEX(resources_mutex);
+
+ struct kmem_cache *drbd_request_cache;
+ struct kmem_cache *drbd_ee_cache;      /* peer requests */
+@@ -2887,7 +2887,6 @@ static int __init drbd_init(void)
+        drbd_proc = NULL; /* play safe for drbd_cleanup */
+        idr_init(&drbd_devices);
+
+-       mutex_init(&resources_mutex);
+        INIT_LIST_HEAD(&drbd_resources);
+
+        err = drbd_genl_register();
